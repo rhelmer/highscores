@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { liveQuery } from 'dexie';
+	import { liveQuery, type Observable } from 'dexie';
 	import { db } from '../db';
+
+	let pixels: Observable<Object[]>;
+	let journeys: Observable<Object[]>;
 
 	const joinPixelsAndJourneys = (pixels, journeys) => {
 		let highScores = new Map();
@@ -30,22 +33,23 @@
 		return result;
 	};
 
-	let pixels;
-	let journeys;
 	db.open().then(() => {
+		console.debug('db open');
 		pixels = liveQuery(() => db.table('fbpixelhunt-pixel').toArray());
 		journeys = liveQuery(() => db.table('fbpixelhunt-journey').toArray());
 	});
+	console.debug('init');
 </script>
 
-<h1 class="text-3xl font-bold underline">Hello world!</h1>
 <div class="container mx-auto">
 	<div class="grid grid-cols-3 gap-6">
+		<h1 class="text-3xl font-bold underline">Facebook Pixel Hunt - High Scores</h1>
+
 		{#if $pixels && $journeys}
 			{#each joinPixelsAndJourneys($pixels, $journeys) as [origin, score]}
 				<div>
 					<img
-						id={score[0]}
+						id={origin}
 						src="https://s2.googleusercontent.com/s2/favicons?domain={origin}"
 						alt="logo"
 						height="16"
