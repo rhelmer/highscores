@@ -65,7 +65,7 @@
 		{#if $pixels && $journeys}
 			{#each joinPixelsAndJourneys($pixels, $journeys) as [origin, score]}
 				{#key origin}
-					<div class="item" in:fly={{ y: 20, duration: 1000 }} out:fly={{ y: 20, duration: 1000 }}>
+					<div class="item" in:fly={{ y: 20, duration: 500 }} out:fly={{ y: 20, duration: 500 }}>
 						<img
 							id={origin}
 							src="https://s2.googleusercontent.com/s2/favicons?domain={origin}"
